@@ -1,10 +1,12 @@
 const express = require('express');
 const knex = require('knex')(require('./knexfile.js')['development']);
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = 3000;
-//const PORT = process.env.PORT || 3000;
+
 app.use(express.json()) // for parsing application/json
+app.use(cookieParser())
 
 app.get('/', function(req, res) {
     res.status(200).send("This is the movie API please use /movies for a list of movies")
@@ -91,6 +93,38 @@ app.delete('/movies/:id', function(req, res) {
     })
   }
 });
+
+app.get("/setCookie", function (req, res) {
+    res.cookie("firstName", req.query.firstName)
+    res.cookie("lastName", req.query.lastName)
+
+    res.status(200).send("You've set your name cookie.")
+})
+
+app.get("/readCookie", function (req, res) {
+  res.status(200).send(`Welcome ${req.cookies.firstName} ${req.cookies.lastName}`)
+})
+/*
+const express('express')
+    , cookieParser = require('cookie-parser'); // in order to read cookie sent from client
+
+app.get('/', (req,res)=>{
+
+    // read cookies
+    console.log(req.cookies)
+
+    let options = {
+        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+        httpOnly: true, // The cookie only accessible by the web server
+        signed: true // Indicates if the cookie should be signed
+    }
+
+    // Set cookie
+    res.cookie('cookieName', 'cookieValue', options) // options is optional
+    res.send('')
+
+})
+*/
 
 
 app.listen(3000, () => {
