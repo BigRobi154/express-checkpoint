@@ -56,14 +56,42 @@ app.get('/movies/:id', function(req, res) {
 });
 
 app.post('/movies', function(req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   knex('movies').insert(req.body)
-  .then(() => res.status(200).send('movie was sent'))
+  .then((results) => {
+    console.log("I'm req.body: ", req.body)
+    res.status(200).send(`${req.body.title} was sent`)}
+    )
   .catch(err => {
     return res.status(500).send(err);
   });
-
 });
+
+app.delete('/movies/:id', function(req, res) {
+  let id = parseInt(req.params.id);
+
+  if (isNaN(id) === true) {
+    res.status(400).send("Not a valid id. Please use an integer.")
+  }
+  else {
+
+    knex('movies').where('id', id).then((results) => {
+      if (results.length === 0) {
+        res.status(400).send("Movie not found - nothing deleted");
+      }
+      else {
+        let movieInfo = results[0]
+
+        knex(`movies`).where('id', id).del()
+        .then(() => res.status(200).send(`${movieInfo.title} was deleted.`))
+        .catch(err => {
+          return res.status(500).send(err);
+        })
+      }
+    })
+  }
+});
+
 
 app.listen(3000, () => {
   console.log(`Yo dawg call me up on dat sweet port: ${port}`)
