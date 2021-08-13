@@ -1,0 +1,28 @@
+{
+  "name": "express-checkpoint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cwalters162/express-checkpoint.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cwalters162/express-checkpoint/issues"
+  },
+  "homepage": "https://github.com/cwalters162/express-checkpoint#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jest": "^27.0.6",
+    "knex": "^0.21.21",
+    "nodemon": "^2.0.12",
+    "pg": "^8.7.1"
+  }
+}
